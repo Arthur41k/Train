@@ -19,18 +19,40 @@ namespace Train
 
         public int identifier { get; set; }
 
-        internal SleepingCarriage(int identifier):base(identifier,7.4,26) 
+        public int compartmentsCount { get; set; }
+
+        public bool hasShowers { get; set; }
+
+        internal SleepingCarriage(int identifier,int compartmentsCount, bool hasShowers) :base(identifier,7.4,26) 
         {
-          
+          this.compartmentsCount = compartmentsCount;
+          this.hasShowers = hasShowers;
         }
         /// <summary>
-        /// Вказує на закінчення роздачі білизни для пасажирів
+        /// Вказує на кількість обслугованих купе у вагоні
         /// </summary>
         /// <returns></returns>
         public string sleepwear()
         {
-            return $"Всім пасажирам у вагоні {identifier} рознесено подушки та наволочки,ковдри та підковдри";
+            Random rnd = new Random();
+            int busy = rnd.Next(1, compartmentsCount);
+            return $"В {busy} купе у вагоні {identifier} рознесено подушки та наволочки,ковдри та підковдри";
         }
         
+        /// <summary>
+        /// Визначає можливість прийняти душ у вагоні
+        /// </summary>
+        /// <returns></returns>
+        public string Showers()
+        {
+            if (hasShowers)
+            {
+                return $" У вагоні {identifier} можна прийняти душ";
+            }
+            else 
+            { 
+                return $"У вагоні {identifier} не можна прийняти душ"; 
+            }
+        }
     }
 }

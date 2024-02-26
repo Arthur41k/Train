@@ -18,17 +18,24 @@ namespace Train
 
         public int identifier { get; set; }
 
-        internal PassengerCarriage(int identifier) : base(identifier,7,12)
-        {
+        public int seatsCount { get; set; } 
 
+        public string comfortlevel { get; set; }
+
+        internal PassengerCarriage(int identifier, int seatsCount,string comfortlevel) : base(identifier,7,12)
+        {
+            this.seatsCount = seatsCount;
+            this.comfortlevel = comfortlevel;
         }
         /// <summary>
-        /// Вказує на закінчення посадки всіх пасажирів
+        /// Вказує на кількість зайнятих місць у вагоні
         /// </summary>
         /// <returns></returns>
         public string Seats()
         {
-            return $"Всі пасажири у вагоні {identifier} розсаджені по місцям";
+            Random rnd = new Random();
+            int busy = rnd.Next(1,seatsCount);
+            return $"В {comfortlevel } вагоні {identifier} зайнято {busy} місць";
         }
     }
 }

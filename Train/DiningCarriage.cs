@@ -18,17 +18,31 @@ namespace Train
 
         public int identifier { get; set; }
 
-        internal DiningCarriage(int identifier) : base(identifier,7,12)
-        {
+        public int tablesCount { get; set; }
 
+        bool hasKitchen { get; set; }
+
+        internal DiningCarriage(int identifier, int tablesCount, bool hasKitchen) : base(identifier, 7, 12)
+        {
+            this.tablesCount = tablesCount;
+            this.hasKitchen = hasKitchen;
         }
         /// <summary>
-        /// Визначає закінчення рознусу їжі по вагону
+        /// Визначає закінчення рознусу їжі 
         /// </summary>
         /// <returns></returns>
         public string Food()
         {
-            return $"Всім пасажирам у вагоні {identifier} рознесено їжу";
+            if (hasKitchen)
+            {
+                Random rnd = new Random();
+                int busy = rnd.Next(1, tablesCount);
+                return $"{busy} пасажирам у вагоні {identifier} рознесено їжу";
+            }
+            else 
+            {
+                return $"У вагоні {identifier} {tablesCount} місць для того аби поїсти власну їжу ";
+            }
         }
     }
 }

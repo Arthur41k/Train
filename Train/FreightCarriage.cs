@@ -18,45 +18,63 @@ namespace Train
 
         public int identifier { get; set; }
 
-        internal FreightCarriage(int identifier) : base(identifier,23.5,13.3)
-        {
+        public double maxLoadCapacity { get; set; }
 
+        public string cargoType { get; set; }
+
+        internal FreightCarriage(int identifier, double maxLoadCapacity) : base(identifier, 23.5, 13.3)
+        {
+            this.maxLoadCapacity = maxLoadCapacity;
         }
         /// <summary>
-        /// Визначає вміст вагону та змінює його опис відповідно до заповнення
+        /// Визначає вміст вагону 
         /// </summary>
         /// <returns></returns>
-        public string Cargo()
+        public void Cargo()
         {
             Random random = new Random();
-            int cargo = random.Next(1, 4); 
+            int cargo = random.Next(1, 4);
             switch (cargo)
             {
                 case 1:
-                    weight += 20;
-                    return $"Вагон {identifier} заповнений вуглем";
+
+                    cargoType = " заповнений вуглем ";
                     break;
                 case 2:
-                    weight += 40;
-                    return $"Вагон {identifier} заповнений залізом";
+                    cargoType = "заповнений залізом";
                     break;
                 case 3:
-                    weight += 30;
-                    return $"Вагон {identifier} заповнений залізом";
+                    cargoType = "заповнений залізом";
                     break;
                 case 4:
-                    type = "Вагон цестерна";
-                    weight += 18;
-                    length -= 2;
-                    return $"Цестерна {identifier} заповнена газом";
+                    cargoType = "заповнена газом";
                     break;
                 default:
-                    return $"Вагон {identifier} порожній";
+                    cargoType = "порожній";
                     break;
 
 
 
             }
         }
+        /// <summary>
+        /// Заповнює вагон вантажем
+        /// </summary>
+        /// <returns></returns>
+            public string Filling()
+            {
+            if(cargoType == "заповнена газом")
+            {
+                type = "Вагон цестерна";
+                weight += maxLoadCapacity - 23.5;
+                length -= 2;
+                return $"Цестерна {identifier} {cargoType}";
+            }
+                    weight += maxLoadCapacity - 23.5;
+                    return $"Вагон {identifier} {cargoType}";
+                    
+            }
     }
+    
 }
+
