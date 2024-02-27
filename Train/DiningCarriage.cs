@@ -11,7 +11,7 @@ namespace Train
     /// </summary>
     class DiningCarriage :Carriage
     {
-        public string type { get; set; } = "Вагон їдальня";
+        public string type { get; set; } = "DiningCarriage";
         public double weight { get; set; } = 7;
 
         public double length { get; set; } = 12;

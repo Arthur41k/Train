@@ -25,37 +25,84 @@ namespace Train
         /// <param name="id"></param>
         public void AddCarrige( Carriage CAR, int id = 256)
         {
-            //Додає вагон в кінець якщо не вказано індекс
-            if (id == 256)
+            
+            if (carriages.First.Value.type == "FreightCarriage")
             {
-                carriages.AddLast(CAR);
+                if (CAR.type == "FreightCarriage")
+                {
+                    //Додає вантажний вагон в кінець якщо не вказано індекс
+                    if (id == 256)
+                    {
+                        carriages.AddLast(CAR);
+                    }
+                    //Додає вантажний вагон на початок якщо індекс дорівнює 1
+                    else if (id == 1)
+                    {
+                        carriages.AddFirst(CAR);
+                    }
+                    //Додає вантажний вагон за обраним індексом(порядком починаючи з 1 від початку потяга)
+                    else
+                    {
+                        int Numeric = 1;
+                        foreach (Carriage car in carriages)
+                        {
+                            if (Numeric == id - 1)
+                            {
+                                LinkedListNode<Carriage> node = carriages.Find(car);
+                                carriages.AddAfter(node, CAR);
+                                //для перевірики чи індекс не більше ніж елементів у LinkedList
+                                Numeric = -5;
+                            }
+                            Numeric++;
+                        }
+                        //Якщо індекс більше ніж елементів у LinkedList тоді вагон додається у кінець
+                        if (Numeric != -5)
+                        {
+                            carriages.AddLast(CAR);
+                        }
+
+                    }
+                }
+
             }
-            //Додає вагон на початок якщо індекс дорівнює 1
-            else if (id == 1)
-            {
-                carriages.AddFirst(CAR);
-            }
-            //Додає вагон за обраним індексом(порядком починаючи з 1 від початку потяга)
+            //якщо вагон не вантажний 
             else
             {
-                int Numeric = 1;
-                foreach (Carriage car in carriages)
+                if (CAR.type != "FreightCarriage")
                 {
-                    if (Numeric == id - 1)
+                    //Додає вагон в кінець якщо не вказано індекс
+                    if (id == 256)
                     {
-                        LinkedListNode<Carriage> node = carriages.Find(car);
-                        carriages.AddAfter(node, CAR);
-                        //для перевірики чи індекс не більше ніж елементів у LinkedList
-                        Numeric = -5;
+                        carriages.AddLast(CAR);
                     }
-                    Numeric++;
+                    //Додає вагон на початок якщо індекс дорівнює 1
+                    else if (id == 1)
+                    {
+                        carriages.AddFirst(CAR);
+                    }
+                    //Додає вагон за обраним індексом(порядком починаючи з 1 від початку потяга)
+                    else
+                    {
+                        int Numeric = 1;
+                        foreach (Carriage car in carriages)
+                        {
+                            if (Numeric == id - 1)
+                            {
+                                LinkedListNode<Carriage> node = carriages.Find(car);
+                                carriages.AddAfter(node, CAR);
+                                //для перевірики чи індекс не більше ніж елементів у LinkedList
+                                Numeric = -5;
+                            }
+                            Numeric++;
+                        }
+                        //Якщо індекс більше ніж елементів у LinkedList тоді вагон додається у кінець
+                        if (Numeric != -5)
+                        {
+                            carriages.AddLast(CAR);
+                        }
+                    }
+
                 }
-                //Якщо індекс більше ніж елементів у LinkedList тоді вагон додається у кінець
-                if (Numeric != -5)
-                {
-                    carriages.AddLast(CAR);
-                }
-                
             }
         }
         /// <summary>
@@ -89,5 +136,99 @@ namespace Train
                 }
             }
         }
+
+        public string SearchCarrige(string type = "", double weight = 0, double length = 0)
+        {
+            int Numeric = 0;
+            int Number = 0;
+            int[] Numerics = new int[10];
+
+                if (type != "")
+                {
+
+                    foreach (Carriage car in carriages)
+                    {
+                        Numeric++;
+                        if (car.type == type)
+                        {
+                            Numerics[Number] = Numeric;
+                            Number++;
+                        }
+                    }
+                    string S = "Ось список вагонів з тиаким типом : ";
+                    if (Numerics.Length == 0)
+                    {
+                        S = "В цьому потязі вагонів такого типу немає";
+                    }
+                    else
+                    {
+                        for (int i = 0; i < Numerics.Length; i++)
+                        {
+                            S = S + i + " , ";
+                        }
+                        S = S + " . ";
+                    }
+                    return S;
+                }
+                else if (weight != 0)
+                {
+
+                    foreach (Carriage car in carriages)
+                    {
+                        Numeric++;
+                        if (car.weight == weight)
+                        {
+                            Numerics[Number] = Numeric;
+                            Number++;
+                        }
+                    }
+                    string S = "Ось список вагонів з такою вагою: ";
+                    if (Numerics.Length == 0)
+                    {
+                        S = "В цьому потязі вагонів з такою вагою немає";
+                    }
+                    else
+                    {
+                        for (int i = 0; i < Numerics.Length; i++)
+                        {
+                            S = S + i + " , ";
+                        }
+                        S = S + " . ";
+                    }
+                    return S;
+                }
+                else if (length != 0)
+                {
+
+                    foreach (Carriage car in carriages)
+                    {
+                        Numeric++;
+                        if (car.length == length)
+                        {
+                            Numerics[Number] = Numeric;
+                            Number++;
+                        }
+                    }
+                    string S = "Ось список вагонів з такою довжиною: ";
+                    if (Numerics.Length == 0)
+                    {
+                        S = "В цьому потязі вагонів з такою довжиною немає";
+                    }
+                    else
+                    {
+                        for (int i = 0; i < Numerics.Length; i++)
+                        {
+                            S = S + i + " , ";
+                        }
+                        S = S + " . ";
+                    }
+                    return S;
+                }
+                else
+                {
+                    return "";
+                }
+
+            }      
     }
 }

@@ -11,7 +11,7 @@ namespace Train
     /// </summary>
     class PassengerCarriage : Carriage
     {
-        public string type { get; set; } = "Пасажирський вагон";
+        public string type { get; set; } = "PassengerCarriage";
         public double weight { get; set; } = 7;
 
         public double length { get; set; } = 12;

@@ -12,7 +12,7 @@ namespace Train
     /// </summary>
     class SleepingCarriage : Carriage
     {
-        public string type { get; set; } = "Спальний вагон";
+        public string type { get; set; } = "SleepingCarriage";
         public double weight { get; set; } = 7.4;
 
         public double length { get; set; } = 26;

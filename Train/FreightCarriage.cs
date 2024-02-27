@@ -11,7 +11,7 @@ namespace Train
     /// </summary>
     class FreightCarriage:Carriage
     {
-        public string type { get; set; } = "Вантажний вагон";
+        public string type { get; set; } = "FreightCarriage";
         public double weight { get; set; } = 23.5;
 
         public double length { get; set; } = 13.3;
