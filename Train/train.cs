@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace Train
 {
    class train
     {
-        public string name {  get; set; }
-        public string routeNumber { get; set; }
+        public string name { get; set; } = "Потяг";
+        public string routeNumber { get; set; } = "0";
         internal train(string name,int routeNumber) 
         { 
             this.name = name;
@@ -229,6 +230,44 @@ namespace Train
                     return "";
                 }
 
-            }      
-    }
+            }
+
+        /// <summary>
+        /// Видає інформацію про окремий вагон або потяг вцілому.
+        /// </summary>
+        /// <param name="id"></param>
+        public void PrintInfo(int id = 999)
+        {
+            if (id == 999)
+            {
+                int Numeric = 0;
+                double AllWeight = 0;
+                double AllLength = 0;
+                foreach (Carriage CAR in carriages)
+                {
+                    AllLength += CAR.length;
+                    AllWeight += CAR.weight;
+                }
+                Console.WriteLine($"Потяг {name} їде по маршруту номер {routeNumber}. \n Вага потягу = {AllWeight}. \n Довжина потягу = {AllLength}");
+                Console.WriteLine("Вагони:");
+                foreach (Carriage CAR in carriages)
+                {
+                    Numeric++;
+                    Console.WriteLine($"Вагон {Numeric} типу {CAR.type}");
+                }
+            }
+            else
+            {
+                int Numeric = 0;
+                foreach (Carriage car in carriages)
+                {
+                    if (Numeric == id)
+                    {
+                        Console.WriteLine($"Вагон номер {id} має довжину {car.length} і вагу {car.weight}");
+                    }
+                    Numeric++;
+                }
+            }
+        }
+    }  
 }

@@ -52,9 +52,6 @@ namespace Train
                 default:
                     cargoType = "порожній";
                     break;
-
-
-
             }
         }
         /// <summary>
