@@ -11,18 +11,17 @@ namespace Train
     /// </summary>
     class PassengerCarriage : Carriage
     {
-        public string type { get; set; } = "PassengerCarriage";
-        public double weight { get; set; } = 7;
+        public string type { get; set; } 
+        public double weight { get; set; } 
 
-        public double length { get; set; } = 12;
-
+        public double length { get; set; } 
         public int identifier { get; set; }
 
         public int seatsCount { get; set; } 
 
         public string comfortlevel { get; set; }
 
-        internal PassengerCarriage(int identifier, int seatsCount,string comfortlevel) : base(identifier,7,12)
+        internal PassengerCarriage(int identifier, int seatsCount,string comfortlevel) : base(identifier, "PassengerCarriage", 7,12)
         {
             this.seatsCount = seatsCount;
             this.comfortlevel = comfortlevel;

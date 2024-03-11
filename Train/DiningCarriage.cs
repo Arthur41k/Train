@@ -11,10 +11,10 @@ namespace Train
     /// </summary>
     class DiningCarriage :Carriage
     {
-        public string type { get; set; } = "DiningCarriage";
-        public double weight { get; set; } = 7;
+        public string type { get; set; } 
+        public double weight { get; set; } 
 
-        public double length { get; set; } = 12;
+        public double length { get; set; } 
 
         public int identifier { get; set; }
 
@@ -22,7 +22,7 @@ namespace Train
 
         bool hasKitchen { get; set; }
 
-        internal DiningCarriage(int identifier, int tablesCount, bool hasKitchen) : base(identifier, 7, 12)
+        internal DiningCarriage(int identifier, int tablesCount, bool hasKitchen) : base(identifier, "DiningCarriage", 7, 12)
         {
             this.tablesCount = tablesCount;
             this.hasKitchen = hasKitchen;

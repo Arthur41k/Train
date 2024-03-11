@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,7 +15,14 @@ namespace Train
         internal train(string name,int routeNumber) 
         { 
             this.name = name;
-            this.routeNumber = $"Маршрут номер {routeNumber}";
+            if (routeNumber % 2 == 0)
+            {
+                this.routeNumber = $"Закордоний маршрут номер {routeNumber}";
+            }
+            else
+            {
+                this.routeNumber = $"Український маршрут номер {routeNumber}";
+            }
         }
         LinkedList<Carriage> carriages = new LinkedList<Carriage>();
 
@@ -26,9 +34,15 @@ namespace Train
         /// <param name="id"></param>
         public void AddCarrige( Carriage CAR, int id = 256)
         {
-            
-            if (carriages.First.Value.type == "FreightCarriage")
+            // Якщо потяг порожній то добавляє вагон в список
+            if (carriages.First?.Value == null)
             {
+                carriages.AddLast(CAR);
+            }
+            //Якщо перший вагон це вантажний вагон
+            else if (carriages.First?.Value != null && carriages.First.Value.type == "FreightCarriage")
+            {
+                //Перевіряє чи доданий елемент є вантажним вагоном
                 if (CAR.type == "FreightCarriage")
                 {
                     //Додає вантажний вагон в кінець якщо не вказано індекс
@@ -61,14 +75,19 @@ namespace Train
                         {
                             carriages.AddLast(CAR);
                         }
-
                     }
-                }
 
+                }
+                else
+                {
+                    throw new Exception("CarrigeIsNotFreightCarriage");
+                }
             }
-            //якщо вагон не вантажний 
+            //якщо перший вагон не вантажний 
             else
             {
+                //Перевірка чи доданий елемент не є вантажним вагоном
+
                 if (CAR.type != "FreightCarriage")
                 {
                     //Додає вагон в кінець якщо не вказано індекс
@@ -238,8 +257,12 @@ namespace Train
         /// <param name="id"></param>
         public void PrintInfo(int id = 999)
         {
+            //Якщо id не було введено виводить інформацію про весь потяг
             if (id == 999)
             {
+                //Перевірка чи не є потяг порожнім і чи є потяг вантажним
+               if (carriages.First?.Value != null && carriages.First.Value.type == "FreightCarriage") 
+                { 
                 int Numeric = 0;
                 double AllWeight = 0;
                 double AllLength = 0;
@@ -248,13 +271,33 @@ namespace Train
                     AllLength += CAR.length;
                     AllWeight += CAR.weight;
                 }
-                Console.WriteLine($"Потяг {name} їде по маршруту номер {routeNumber}. \n Вага потягу = {AllWeight}. \n Довжина потягу = {AllLength}");
+                Console.WriteLine($"Вантажний потяг {name}. {routeNumber}. \n Вага потягу = {AllWeight} тон. \n Довжина потягу = {AllLength} метрів");
                 Console.WriteLine("Вагони:");
-                foreach (Carriage CAR in carriages)
-                {
-                    Numeric++;
-                    Console.WriteLine($"Вагон {Numeric} типу {CAR.type}");
+                    foreach (Carriage CAR in carriages)
+                    {
+                        Numeric++;
+                        Console.WriteLine($"Вагон {Numeric} типу {CAR.type} ");
+                    }
                 }
+               else
+                {
+                    int Numeric = 0;
+                    double AllWeight = 0;
+                    double AllLength = 0;
+                    foreach (Carriage CAR in carriages)
+                    {
+                        AllLength += CAR.length;
+                        AllWeight += CAR.weight;
+                    }
+                    Console.WriteLine($"Пасажирський потяг {name}. {routeNumber}. \n Вага потягу = {AllWeight} тон. \n Довжина потягу = {AllLength} метрів");
+                    Console.WriteLine("Вагони:");
+                    foreach (Carriage CAR in carriages)
+                    {
+                        Numeric++;
+                        Console.WriteLine($"Вагон {Numeric} типу {CAR.type} ");
+                    }
+                }
+                
             }
             else
             {

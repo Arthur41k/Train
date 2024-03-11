@@ -11,10 +11,10 @@ namespace Train
     /// </summary>
     class FreightCarriage:Carriage
     {
-        public string type { get; set; } = "FreightCarriage";
-        public double weight { get; set; } = 23.5;
+        public string type { get; set; } 
+        public double weight { get; set; }
 
-        public double length { get; set; } = 13.3;
+        public double length { get; set; } 
 
         public int identifier { get; set; }
 
@@ -22,7 +22,7 @@ namespace Train
 
         public string cargoType { get; set; }
 
-        internal FreightCarriage(int identifier, double maxLoadCapacity) : base(identifier, 23.5, 13.3)
+        internal FreightCarriage(int identifier, double maxLoadCapacity) : base(identifier, "FreightCarriage", 23.5, 13.3)
         {
             this.maxLoadCapacity = maxLoadCapacity;
         }
@@ -54,23 +54,7 @@ namespace Train
                     break;
             }
         }
-        /// <summary>
-        /// Заповнює вагон вантажем
-        /// </summary>
-        /// <returns></returns>
-            public string Filling()
-            {
-            if(cargoType == "заповнена газом")
-            {
-                type = "Вагон цестерна";
-                weight += maxLoadCapacity - 23.5;
-                length -= 2;
-                return $"Цестерна {identifier} {cargoType}";
-            }
-                    weight += maxLoadCapacity - 23.5;
-                    return $"Вагон {identifier} {cargoType}";
-                    
-            }
+       
     }
     
 }

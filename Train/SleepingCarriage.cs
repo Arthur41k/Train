@@ -12,10 +12,9 @@ namespace Train
     /// </summary>
     class SleepingCarriage : Carriage
     {
-        public string type { get; set; } = "SleepingCarriage";
-        public double weight { get; set; } = 7.4;
-
-        public double length { get; set; } = 26;
+        public string type { get; set; } 
+        public double weight { get; set; } 
+        public double length { get; set; } 
 
         public int identifier { get; set; }
 
@@ -23,7 +22,7 @@ namespace Train
 
         public bool hasShowers { get; set; }
 
-        internal SleepingCarriage(int identifier,int compartmentsCount, bool hasShowers) :base(identifier,7.4,26) 
+        internal SleepingCarriage(int identifier,int compartmentsCount, bool hasShowers) :base(identifier, "SleepingCarriage",7.4,26) 
         {
           this.compartmentsCount = compartmentsCount;
           this.hasShowers = hasShowers;

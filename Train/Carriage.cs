@@ -19,8 +19,9 @@ namespace Train
         public int identifier { get; set; }
 
         //Конструктор приймає номер,вагу та довжину вагона
-        public Carriage(int identifier, double weight, double length)
+        public Carriage(int identifier,string type, double weight, double length)
         {
+            this.type = type;
             this.identifier = identifier;   
             this.weight = weight;
             this.length = length;
