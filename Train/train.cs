@@ -130,7 +130,7 @@ namespace Train
         /// </summary>
         /// <param name="CAR"></param>
         /// <param name="id"></param>
-        public void RemovCarriage (Carriage CAR, int id = 256)
+        public void RemovCarriage (int id = 256)
         {
             //Видаляє останій вагон якщо не вказано індекс
             if (id == 256)
@@ -143,113 +143,71 @@ namespace Train
                 carriages.RemoveFirst();
             }
             //Видаляє вагон за обраним індексом(порядком починаючи з 1 від початку потяга)
-            else
+            else if (id != 256 && id != 1)
             {
-                int Numeric = 1;
-                foreach (Carriage car in carriages)
+                if (id > 0 && id <= carriages.Count)
                 {
-                    if (Numeric == id )
-                    {
-                       carriages.Remove(car);
-                    }
-                    Numeric++;
+                    carriages.Remove(carriages.ElementAt(id - 1));
+                }
+                else 
+                {
+                    Console.WriteLine("Такого вагону немає");
                 }
             }
         }
 
+        /// <summary>
+        /// Вертає список вагонів з певною ознакою
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="weight"></param>
+        /// <param name="length"></param>
+        /// <returns></returns>
         public string SearchCarrige(string type = "", double weight = 0, double length = 0)
         {
-            int Numeric = 0;
-            int Number = 0;
-            int[] Numerics = new int[10];
+            int Numeric = 0;  
+            List<int> Numerics = new List<int>();
 
-                if (type != "")
+            foreach (Carriage car in carriages)
+            {
+                if (!string.IsNullOrEmpty(type) && car.type == type)
                 {
-
-                    foreach (Carriage car in carriages)
-                    {
-                        Numeric++;
-                        if (car.type == type)
-                        {
-                            Numerics[Number] = Numeric;
-                            Number++;
-                        }
-                    }
-                    string S = "Ось список вагонів з тиаким типом : ";
-                    if (Numerics.Length == 0)
-                    {
-                        S = "В цьому потязі вагонів такого типу немає";
-                    }
-                    else
-                    {
-                        for (int i = 0; i < Numerics.Length; i++)
-                        {
-                            S = S + i + " , ";
-                        }
-                        S = S + " . ";
-                    }
-                    return S;
+                    Numerics.Add(Numeric);
                 }
-                else if (weight != 0)
+                else if (weight != 0 && car.weight == weight)
                 {
-
-                    foreach (Carriage car in carriages)
-                    {
-                        Numeric++;
-                        if (car.weight == weight)
-                        {
-                            Numerics[Number] = Numeric;
-                            Number++;
-                        }
-                    }
-                    string S = "Ось список вагонів з такою вагою: ";
-                    if (Numerics.Length == 0)
-                    {
-                        S = "В цьому потязі вагонів з такою вагою немає";
-                    }
-                    else
-                    {
-                        for (int i = 0; i < Numerics.Length; i++)
-                        {
-                            S = S + i + " , ";
-                        }
-                        S = S + " . ";
-                    }
-                    return S;
+                    Numerics.Add(Numeric);
                 }
-                else if (length != 0)
+                else if (length != 0 && car.length == length)
                 {
-
-                    foreach (Carriage car in carriages)
-                    {
-                        Numeric++;
-                        if (car.length == length)
-                        {
-                            Numerics[Number] = Numeric;
-                            Number++;
-                        }
-                    }
-                    string S = "Ось список вагонів з такою довжиною: ";
-                    if (Numerics.Length == 0)
-                    {
-                        S = "В цьому потязі вагонів з такою довжиною немає";
-                    }
-                    else
-                    {
-                        for (int i = 0; i < Numerics.Length; i++)
-                        {
-                            S = S + i + " , ";
-                        }
-                        S = S + " . ";
-                    }
-                    return S;
-                }
-                else
-                {
-                    return "";
+                    Numerics.Add(Numeric);
                 }
 
+                Numeric++;
             }
+
+            StringBuilder result = new StringBuilder();
+
+            if (Numerics.Count == 0)
+            {
+                result.Append($"В цьому потязі немає таких вагонів");
+            }
+            else
+            {
+                result.Append($"Ось список вагонів з такими ознаким:");
+
+                foreach (int i in Numerics)
+                {
+                    result.Append($" {i},");
+                }
+
+                result.Remove(result.Length - 1, 1);  // Видалення останньої коми
+                result.Append(" . ");
+            }
+
+            return result.ToString();
+        }
+
 
         /// <summary>
         /// Видає інформацію про окремий вагон або потяг вцілому.
@@ -261,7 +219,7 @@ namespace Train
             if (id == 999)
             {
                 //Перевірка чи не є потяг порожнім і чи є потяг вантажним
-               if (carriages.First?.Value != null && carriages.First.Value.type == "FreightCarriage") 
+               if (carriages.First?.Value != null ) 
                 { 
                 int Numeric = 0;
                 double AllWeight = 0;
@@ -271,31 +229,17 @@ namespace Train
                     AllLength += CAR.length;
                     AllWeight += CAR.weight;
                 }
-                Console.WriteLine($"Вантажний потяг {name}. {routeNumber}. \n Вага потягу = {AllWeight} тон. \n Довжина потягу = {AllLength} метрів");
+                Console.WriteLine($"Потяг {name}. {routeNumber}. \n Вага потягу = {AllWeight} тон. \n Довжина потягу = {AllLength} метрів");
                 Console.WriteLine("Вагони:");
                     foreach (Carriage CAR in carriages)
                     {
                         Numeric++;
-                        Console.WriteLine($"Вагон {Numeric} типу {CAR.type} ");
+                        Console.WriteLine($"Вагон {Numeric} типу {CAR.type} ");    
                     }
                 }
                else
                 {
-                    int Numeric = 0;
-                    double AllWeight = 0;
-                    double AllLength = 0;
-                    foreach (Carriage CAR in carriages)
-                    {
-                        AllLength += CAR.length;
-                        AllWeight += CAR.weight;
-                    }
-                    Console.WriteLine($"Пасажирський потяг {name}. {routeNumber}. \n Вага потягу = {AllWeight} тон. \n Довжина потягу = {AllLength} метрів");
-                    Console.WriteLine("Вагони:");
-                    foreach (Carriage CAR in carriages)
-                    {
-                        Numeric++;
-                        Console.WriteLine($"Вагон {Numeric} типу {CAR.type} ");
-                    }
+                    Console.WriteLine("В потязі немає вагонів");
                 }
                 
             }
@@ -306,11 +250,22 @@ namespace Train
                 {
                     if (Numeric == id)
                     {
-                        Console.WriteLine($"Вагон номер {id} має довжину {car.length} і вагу {car.weight}");
+                        Console.WriteLine($"{id} Вагон типу {car.type} має довжину {car.length} і вагу {car.weight}");
                     }
                     Numeric++;
                 }
             }
+        }
+
+        ///Метод що рахує кількість вагонів
+        public int SumCarriage()
+        {
+            int SumCarriage = 0;
+            foreach (Carriage car in carriages)
+            {
+                SumCarriage++;
+            }
+            return SumCarriage;
         }
     }  
 }

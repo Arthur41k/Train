@@ -4,33 +4,33 @@
     {
         static void Main(string[] args)
         {
-           Console.OutputEncoding=System.Text.Encoding.UTF8;
+            Console.OutputEncoding = System.Text.Encoding.UTF8;
             Console.Write("Введіть назву потягу: ");
             string Name = Console.ReadLine();
-            train Train = new train("Name",1);
+            train Train = new train(Name, 1);
             Console.WriteLine("Який у вас потяг ? \n Вантажний(1) \n Пасажирський(2)");
             int N = int.Parse(Console.ReadLine());
             if (N == 1)
             {
-                Console.Write("Скільки ви хочете добавити вагонів ? = ");
-                int n = int.Parse(Console.ReadLine());  
-                for (int i = 0; i < n; i++) 
-                {                    
-                    FreightCarriage Carriage = new FreightCarriage(i,70);
-                    Train.AddCarrige(Carriage);
-                    Carriage.Cargo();
-                    
-                }
-            }
-            else if(N == 2) 
-            {
-                Console.Write("Скільки ви хочете добавити вагонів ? = ");
+                Console.Write("Скільки ви хочете додати вагонів ? \n = ");
                 int n = int.Parse(Console.ReadLine());
                 for (int i = 0; i < n; i++)
                 {
-                    Console.Write("Який добавити вагон ? \n Пасажирський(1) \n Спальний вагон(2) \n Вагон кухня (3) \n = ");
+                    FreightCarriage Carriage = new FreightCarriage(i, 70);
+                    Train.AddCarrige(Carriage);
+                    Carriage.Cargo();
+
+                }
+            }
+            else if (N == 2)
+            {
+                Console.Write("Скільки ви хочете додати вагонів ? = ");
+                int n = int.Parse(Console.ReadLine());
+                for (int i = 0; i < n; i++)
+                {
+                    Console.Write("Який додати вагон ? \n Пасажирський(1) \n Спальний вагон(2) \n Вагон кухня (3) \n = ");
                     int Numeric = int.Parse(Console.ReadLine());
-                    switch(Numeric)
+                    switch (Numeric)
                     {
                         case 1:
                             Console.Write("Скільки місць у вагоні ? \n =");
@@ -53,7 +53,7 @@
                                     CarrigeClass = "";
                                     break;
                             }
-                            PassengerCarriage Carriage = new PassengerCarriage(i,seats,CarrigeClass);
+                            PassengerCarriage Carriage = new PassengerCarriage(i, seats, CarrigeClass);
                             Train.AddCarrige(Carriage);
                             Console.Clear();
                             break;
@@ -61,7 +61,7 @@
                             Console.Write("Скільки купе у вагоні ? \n =");
                             int compartmentsCount = int.Parse(Console.ReadLine());
                             bool B = false;
-                            Console.Write("У вагоні є душ ? \n Так(1) \n Ні(2) \n =");                            
+                            Console.Write("У вагоні є душ ? \n Так(1) \n Ні(2) \n =");
                             int choese = int.Parse(Console.ReadLine());
                             if (choese == 1)
                             {
@@ -94,6 +94,84 @@
                 Console.WriteLine("Ви ввели не правельне число");
             }
             Train.PrintInfo();
+            int SumCarriage = Train.SumCarriage();
+            Thread.Sleep(5000);
+            Console.Clear();
+            for (; ; )
+            {
+                Console.Write("Ви хочете видалити якийсь вагон ? Так(1) Ні(2) \n =");
+                int A = int.Parse(Console.ReadLine());
+                if (A == 1)
+                {
+                    Console.Write("Який вагон видалити ? Напишіть номер вагону (починаючи з 1) \n =");
+                    int CarrigeNumber = int.Parse(Console.ReadLine());  
+                    Train.RemovCarriage(CarrigeNumber);
+                    Train.PrintInfo();
+                    Thread.Sleep(5000);
+                    Console.Clear();
+                }
+                else
+                {
+                    break;
+                }
+            }
+            Train.PrintInfo();
+            Thread.Sleep(5000);
+            Console.Clear();
+            for (; ; )
+            {
+                Console.Write("Ви хочете знайти якийсь вагон за певною ознакою ? Так(1) Ні(2) \n =");
+                int A = int.Parse(Console.ReadLine());
+                if (A == 1)
+                {
+                    Console.Write("За якою ознаю шукати ? \n Тип вагона (1) \n Вага вагона (2) \n Довжина вагону (3)\n =");
+                    int CarrigeNumber = int.Parse(Console.ReadLine());
+                    switch(CarrigeNumber)
+                    {
+                        case 1:
+                            Console.Write("Який тип шукати ? \n PassengerCarriage (1) \n DiningCarriage (2) \n SleepingCarriage (3)\n FreightCarriage (4) \n =");
+                            int B = int.Parse(Console.ReadLine());
+                            switch (B)
+                            {
+                                case 1:
+                                    Console.WriteLine(Train.SearchCarrige("PassengerCarriage")); 
+                                    break;
+                                    case 2:
+                                    Console.WriteLine(Train.SearchCarrige("DiningCarriage"));
+                                    break; 
+                                case 3:
+                                    Console.WriteLine(Train.SearchCarrige("SleepingCarriage"));
+                                    break;
+                                case 4:
+                                    Console.WriteLine(Train.SearchCarrige("FreightCarriage"));
+                                    break;
+                                default:
+                                    Console.WriteLine("Введено неправильне число");
+                                    break;
+
+                            }
+                            break;
+                        case 2:
+                            Console.Write("Яка вага (в тонах) ? \n =");
+                            double C = double.Parse(Console.ReadLine());
+                            Console.WriteLine(Train.SearchCarrige(weight:C));
+                            break;
+                        case 3:
+                            Console.Write("Яка довжина (в метрах) ? \n =");
+                            double D = double.Parse(Console.ReadLine());
+                            Console.WriteLine(Train.SearchCarrige(length: D));
+                            break;
+                        default:
+                            Console.WriteLine("Введено неправильне число");
+                            break;
+                    }
+                }
+                else
+                {
+                    break;
+                }
+            }
+
 
         }
     }
