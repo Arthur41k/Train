@@ -5,6 +5,7 @@
         static void Main(string[] args)
         {
             Console.OutputEncoding = System.Text.Encoding.UTF8;
+
             Console.Write("Введіть назву потягу: ");
             string Name = Console.ReadLine();
             train Train = new train(Name, 1);
@@ -95,7 +96,7 @@
             }
             Train.PrintInfo();
             int SumCarriage = Train.SumCarriage();
-            Thread.Sleep(5000);
+            Thread.Sleep(7000);
             Console.Clear();
             for (; ; )
             {
@@ -107,7 +108,7 @@
                     int CarrigeNumber = int.Parse(Console.ReadLine());  
                     Train.RemovCarriage(CarrigeNumber);
                     Train.PrintInfo();
-                    Thread.Sleep(5000);
+                    Thread.Sleep(7000);
                     Console.Clear();
                 }
                 else
@@ -116,7 +117,7 @@
                 }
             }
             Train.PrintInfo();
-            Thread.Sleep(5000);
+            Thread.Sleep(7000);
             Console.Clear();
             for (; ; )
             {
@@ -136,7 +137,7 @@
                                 case 1:
                                     Console.WriteLine(Train.SearchCarrige("PassengerCarriage")); 
                                     break;
-                                    case 2:
+                                case 2:
                                     Console.WriteLine(Train.SearchCarrige("DiningCarriage"));
                                     break; 
                                 case 3:
