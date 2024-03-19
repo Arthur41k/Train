@@ -6,8 +6,12 @@ namespace Train
 {
    class train
     {
-        public string name { get; set; } = "Потяг";
-        public string routeNumber { get; set; } = "0";
+        public string name { get; set; }
+        public string routeNumber { get; set; }
+
+        int peopleCount;
+        int compartmentsCount;
+        int sumPasagire;
         internal train(string name,int routeNumber) 
         { 
             this.name = name;
@@ -262,6 +266,51 @@ namespace Train
                 SumCarriage++;
             }
             return SumCarriage;
+        }
+
+        /// <summary>
+        /// Рахує кількість пасажирів у потязі
+        /// </summary>
+        public void SumPasagire()
+        {
+            bool BUP = true;
+            foreach (Carriage car in carriages)
+            {
+                
+                if(car.type == "FreightCarriage")
+                {
+                    Console.WriteLine("В цьому потязі немає пасажирів лише машиніст.");
+                    BUP = false;
+                    break;
+                }
+                else 
+                {
+                    if (car.type == "PassengerCarrige")
+                    {
+                        sumPasagire += peopleCount;
+                    }
+                    else if(car.type == "SleepingCarriage")
+                    {
+                        Random rnd = new Random();
+                        sumPasagire += compartmentsCount * rnd.Next(1, 4);
+                    }
+                }
+            }
+            if (BUP)
+            {
+                Console.WriteLine($"В цьому потязі {sumPasagire} пасажирів");
+            }
+        }
+
+        /// <summary>
+        /// Конвертує кількість пасажирів в пасажирському вагоні та кількість купе в клас train
+        /// </summary>
+        /// <param name="peopleCount"></param>
+        /// <param name="compartmentsCount"></param>
+        public void ConvertValue(int peopleCount=0,int compartmentsCount=0)
+        {
+            this.peopleCount = peopleCount;
+            this.compartmentsCount = compartmentsCount;
         }
     }  
 }

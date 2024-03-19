@@ -30,11 +30,10 @@ namespace Train
         /// Вказує на кількість зайнятих місць у вагоні
         /// </summary>
         /// <returns></returns>
-        public string Seats()
+        public int Seats()
         {
-            Random rnd = new Random();
-            int busy = rnd.Next(1,seatsCount);
-            return $"В {comfortlevel } вагоні {identifier} зайнято {busy} місць";
+            Random rnd = new Random();           
+            return rnd.Next(1, seatsCount);
         }
     }
 }
