@@ -257,49 +257,43 @@ namespace Train
             }
         }
 
-        ///Метод що рахує кількість вагонів
-        public int SumCarriage()
-        {
-            int SumCarriage = 0;
-            foreach (Carriage car in carriages)
-            {
-                SumCarriage++;
-            }
-            return SumCarriage;
-        }
-
         /// <summary>
         /// Рахує кількість пасажирів у потязі
         /// </summary>
-        public void SumPasagire()
+        public int SumPasagire()
         {
-            bool BUP = true;
-            foreach (Carriage car in carriages)
+            if (carriages.First?.Value != null)
             {
-                
-                if(car.type == "FreightCarriage")
+                if (carriages.First.Value.type == "FreightCarriage")
                 {
-                    Console.WriteLine("В цьому потязі немає пасажирів лише машиніст.");
-                    BUP = false;
-                    break;
+                    return 1;
                 }
-                else 
+                else
                 {
-                    if (car.type == "PassengerCarrige")
+                    foreach (Carriage car in carriages)
                     {
-                        sumPasagire += peopleCount;
+                        if (car.type == "PassengerCarrige")
+                        {
+                            sumPasagire += peopleCount;
+                        }
+                        else if (car.type == "SleepingCarriage")
+                        {
+                            //враховує що в одному купе 4 людини
+                            sumPasagire += compartmentsCount *  4;
+                        }
+                        //Якщо вагон кухня додає одного працівника
+                        else
+                        {
+                            sumPasagire++;
+                        }
+                        
                     }
-                    else if(car.type == "SleepingCarriage")
-                    {
-                        Random rnd = new Random();
-                        sumPasagire += compartmentsCount * rnd.Next(1, 4);
-                    }
+                    //Повертає кількість пасажирів з урахуванням машиніста
+                    return sumPasagire + 1;
+
                 }
             }
-            if (BUP)
-            {
-                Console.WriteLine($"В цьому потязі {sumPasagire} пасажирів");
-            }
+            else { return 0; }
         }
 
         /// <summary>
@@ -312,5 +306,8 @@ namespace Train
             this.peopleCount = peopleCount;
             this.compartmentsCount = compartmentsCount;
         }
+
+       
+        
     }  
 }
