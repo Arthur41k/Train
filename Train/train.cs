@@ -9,6 +9,9 @@ namespace Train
         public string name { get; set; }
         public string routeNumber { get; set; }
 
+        int ChangesPassenger = 0;
+        int ChangesSleeps= 0;
+
         int peopleCount;
         int compartmentsCount;
         int sumPasagire;
@@ -135,11 +138,29 @@ namespace Train
             //Видаляє останій вагон якщо не вказано індекс
             if (id == 256)
             {
+                //Позначення того який вагон видалено для інших методів
+                if (carriages.Last.Value.type == "PassengerCarriage")
+                {
+                    ChangesPassenger++;
+                }
+                else if (carriages.Last.Value.type == "SleepingCarriage")
+                {
+                    ChangesSleeps++;
+                }
                 carriages.RemoveLast();
             }
             //Видаляє перший вагон якщо індекс дорівнює 1
             else if (id == 1)
             {
+                //Позначення того який вагон видалено для інших методів
+                if (carriages.First.Value.type == "PassengerCarriage")
+                {
+                    ChangesPassenger++;
+                }
+                else if (carriages.First.Value.type == "SleepingCarriage")
+                {
+                    ChangesSleeps++;
+                }
                 carriages.RemoveFirst();
             }
             //Видаляє вагон за обраним індексом(порядком починаючи з 1 від початку потяга)
@@ -147,7 +168,17 @@ namespace Train
             {
                 if (id > 0 && id <= carriages.Count)
                 {
-                    carriages.Remove(carriages.ElementAt(id - 1));
+                    Carriage car = carriages.ElementAt(id - 1);
+                    //Позначення того який вагон видалено для інших методів
+                    if (car.type == "PassengerCarriage")
+                    {
+                        ChangesPassenger++;
+                    }
+                    else if (car.type == "SleepingCarriage")
+                    {
+                        ChangesSleeps++;
+                    }
+                    carriages.Remove(car);
                 }
                 else 
                 {
@@ -270,27 +301,33 @@ namespace Train
                 }
                 else
                 {
+                    int peopleCounts = 0;
+                    int compartmentsCounts = 0;
+                    // ТУТ ПОМИЛКА
                     foreach (Carriage car in carriages)
                     {
-                        if (car.type == "PassengerCarrige")
+                        if (car.type == "PassengerCarriage")
                         {
-                            sumPasagire += peopleCount;
+                            peopleCounts +=  peopleCount;
                         }
                         else if (car.type == "SleepingCarriage")
                         {
                             //враховує що в одному купе 4 людини
-                            sumPasagire += compartmentsCount *  4;
-                        }
-                        //Якщо вагон кухня додає одного працівника
-                        else
-                        {
-                            sumPasagire++;
-                        }
-                        
+                            compartmentsCounts += compartmentsCount *  4;
+                        } 
                     }
-                    //Повертає кількість пасажирів з урахуванням машиніста
-                    return sumPasagire + 1;
-
+                    sumPasagire = peopleCounts + compartmentsCounts;
+                    //Повертає кількість пасажирів з урахуванням машиніста та видалених вагонів
+                    if (ChangesPassenger != 0 || ChangesSleeps != 0)
+                    {
+                        sumPasagire = sumPasagire - ChangesPassenger;
+                        sumPasagire = sumPasagire - ChangesSleeps * 4;
+                        return sumPasagire + 1;
+                    }
+                    else
+                    {
+                        return sumPasagire + 1;
+                    }
                 }
             }
             else { return 0; }
