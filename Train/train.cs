@@ -12,9 +12,9 @@ namespace Train
         int ChangesPassenger = 0;
         int ChangesSleeps= 0;
 
-        int peopleCount;
-        int compartmentsCount;
-        int sumPasagire;
+        int peopleCount=0;
+        int compartmentsCount = 0;
+        
         internal train(string name,int routeNumber) 
         { 
             this.name = name;
@@ -291,7 +291,7 @@ namespace Train
         /// <summary>
         /// Рахує кількість пасажирів у потязі
         /// </summary>
-        public int SumPasagire()
+        public int SumPasagire(List<int> peopleCount,List<int> compartmentsCount)
         {
             if (carriages.First?.Value != null)
             {
@@ -301,27 +301,33 @@ namespace Train
                 }
                 else
                 {
-                    int peopleCounts = 0;
-                    int compartmentsCounts = 0;
+                    int sumPasagire = 0;
                     // ТУТ ПОМИЛКА
                     foreach (Carriage car in carriages)
                     {
                         if (car.type == "PassengerCarriage")
                         {
-                            peopleCounts +=  peopleCount;
+                            foreach(int pep in peopleCount)
+                            {
+                                sumPasagire += pep;
+                            }
+                           
                         }
                         else if (car.type == "SleepingCarriage")
                         {
                             //враховує що в одному купе 4 людини
-                            compartmentsCounts += compartmentsCount *  4;
+                            foreach (int com in compartmentsCount)
+                            {
+                                sumPasagire += com * 4;
+                            }
+                            
                         } 
                     }
-                    sumPasagire = peopleCounts + compartmentsCounts;
                     //Повертає кількість пасажирів з урахуванням машиніста та видалених вагонів
                     if (ChangesPassenger != 0 || ChangesSleeps != 0)
                     {
-                        sumPasagire = sumPasagire - ChangesPassenger;
-                        sumPasagire = sumPasagire - ChangesSleeps * 4;
+                        sumPasagire -= ChangesPassenger;
+                        sumPasagire -= ChangesSleeps * 4;
                         return sumPasagire + 1;
                     }
                     else
@@ -332,19 +338,5 @@ namespace Train
             }
             else { return 0; }
         }
-
-        /// <summary>
-        /// Конвертує кількість пасажирів в пасажирському вагоні та кількість купе в клас train
-        /// </summary>
-        /// <param name="peopleCount"></param>
-        /// <param name="compartmentsCount"></param>
-        public void ConvertValue(int peopleCount=0,int compartmentsCount=0)
-        {
-            this.peopleCount = peopleCount;
-            this.compartmentsCount = compartmentsCount;
-        }
-
-       
-        
     }  
 }
