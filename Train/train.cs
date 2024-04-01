@@ -291,7 +291,7 @@ namespace Train
         /// <summary>
         /// Рахує кількість пасажирів у потязі
         /// </summary>
-        public int SumPasagire(List<int> peopleCount,List<int> compartmentsCount)
+        public int SumPasagire()
         {
             if (carriages.First?.Value != null)
             {
@@ -302,38 +302,20 @@ namespace Train
                 else
                 {
                     int sumPasagire = 0;
-                    // ТУТ ПОМИЛКА
                     foreach (Carriage car in carriages)
                     {
                         if (car.type == "PassengerCarriage")
-                        {
-                            foreach(int pep in peopleCount)
-                            {
-                                sumPasagire += pep;
-                            }
-                           
+                        {  
+                                sumPasagire += car.seatsCount;
                         }
                         else if (car.type == "SleepingCarriage")
                         {
                             //враховує що в одному купе 4 людини
-                            foreach (int com in compartmentsCount)
-                            {
-                                sumPasagire += com * 4;
-                            }
-                            
+                                sumPasagire += car.compartmentsCount * 4;
                         } 
                     }
-                    //Повертає кількість пасажирів з урахуванням машиніста та видалених вагонів
-                    if (ChangesPassenger != 0 || ChangesSleeps != 0)
-                    {
-                        sumPasagire -= ChangesPassenger;
-                        sumPasagire -= ChangesSleeps * 4;
-                        return sumPasagire + 1;
-                    }
-                    else
-                    {
-                        return sumPasagire + 1;
-                    }
+                    //Повертає кількість пасажирів з урахуванням машиніста 
+                    return sumPasagire + 1;
                 }
             }
             else { return 0; }

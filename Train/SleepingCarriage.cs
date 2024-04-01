@@ -22,7 +22,13 @@ namespace Train
 
         public bool hasShowers { get; set; }
 
-        internal SleepingCarriage(int identifier,int compartmentsCount, bool hasShowers) :base(identifier, "SleepingCarriage",7.4,26) 
+        //Власні зміні
+
+        public bool compartment = false;
+
+        public bool sauna = false;
+
+        internal SleepingCarriage(int identifier,int compartmentsCount, bool hasShowers) :base(identifier, "SleepingCarriage",7.4,26, compartmentsCount: compartmentsCount)
         {
           this.compartmentsCount = compartmentsCount;
           this.hasShowers = hasShowers;
@@ -39,18 +45,54 @@ namespace Train
         }
         
         /// <summary>
-        /// Визначає можливість прийняти душ у вагоні
+        /// Визначає можливість прийняти душ та попаритись в бані 
         /// </summary>
         /// <returns></returns>
         public string Showers()
         {
+            Random rand = new Random();
+            if (rand.Next(1,5) == 1)
+            {
+                sauna = true ;
+            }
             if (hasShowers)
             {
-                return $" У вагоні {identifier} можна прийняти душ";
+                if (sauna)
+                {
+                    return $"У вагоні {identifier} можна прийняти душ або попаритись в бані";
+                }
+                else 
+                { 
+                    return $" У вагоні {identifier} можна прийняти душ"; 
+                }
             }
             else 
             { 
                 return $"У вагоні {identifier} не можна прийняти душ"; 
+            }
+        }
+
+        /// <summary>
+        /// Обробка можливості конфліктів
+        /// </summary>
+        public void Conflicts()
+        {
+            if(compartment)
+            {
+                Console.WriteLine("Через те що цей вагон з купе конфлікти дуже рідкісні");
+            }
+            else 
+            { 
+                Random rand = new Random();
+                int Case = rand.Next(1, 5);
+                if (Case == 5)
+                {
+                    Console.WriteLine("В вагоні плацкарт стався конфлікт");
+                }
+                else 
+                { 
+                    Console.WriteLine("В вагоні плацкарт,але конфліктів не було");
+                }   
             }
         }
     }

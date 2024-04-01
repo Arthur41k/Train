@@ -6,9 +6,6 @@
         {
             Console.OutputEncoding = System.Text.Encoding.UTF8;
 
-            List<int> peopleCount = new List<int>();
-            List<int> CompartmentsCount = new List<int>();
-
             Console.Write("Введіть назву потягу: ");
             string Name = Console.ReadLine();
             train Train = new train(Name, 1);
@@ -16,9 +13,9 @@
             int N = int.Parse(Console.ReadLine());
             if (N == 1)
             {
-                Console.Write("Скільки ви хочете додати вагонів (не більше 10) ? \n = ");
+                Console.Write("Скільки ви хочете додати вагонів (не більше 30) ? \n = ");
                 int n = int.Parse(Console.ReadLine());
-                if (n<=10)
+                if (n<=30)
                 {
                     for (int i = 0; i < n; i++)
                     {
@@ -45,7 +42,6 @@
                             case 1:
                                 Console.Write("Скільки місць у вагоні ? \n = ");
                                 int seats = int.Parse(Console.ReadLine());
-                                peopleCount.Add(seats);
                                 Console.Write("Який клас у пасажирського вагона ? \n Звичайний(1) \n Бізнес(2) \n S-клас(3) \n = ");
                                 string CarrigeClass;
                                 int clas = int.Parse(Console.ReadLine());
@@ -71,7 +67,6 @@
                             case 2:
                                 Console.Write("Скільки купе у вагоні ? \n = ");
                                 int Compartments = int.Parse(Console.ReadLine());
-                                CompartmentsCount.Add(Compartments);
                                 bool B = false;
                                 Console.Write("У вагоні є душ ? \n Так(1) \n Ні(2) \n =");
                                 int choese = int.Parse(Console.ReadLine());
@@ -111,7 +106,7 @@
                 Console.WriteLine("Ви ввели не правельне число");
             }
             Train.PrintInfo();
-            Console.WriteLine($"В потязі {Train.SumPasagire(peopleCount,CompartmentsCount)} пасажирів (включно з машиністом).");
+            Console.WriteLine($"В потязі {Train.SumPasagire()} пасажирів (включно з машиністом).");
             Thread.Sleep(7000);
             Console.Clear();
             for (; ; )
@@ -125,7 +120,7 @@
                     
                     Train.RemovCarriage(CarrigeNumber);
                     Train.PrintInfo();
-                    Console.WriteLine($"В потязі {Train.SumPasagire(peopleCount, CompartmentsCount)} пасажирів (включно з машиністом).");
+                    Console.WriteLine($"В потязі {Train.SumPasagire()} пасажирів (включно з машиністом).");
                     Thread.Sleep(7000);
                     Console.Clear();
                 }
@@ -135,7 +130,7 @@
                 }
             }
             Train.PrintInfo();
-            Console.WriteLine($"В потязі {Train.SumPasagire(peopleCount, CompartmentsCount)} пасажирів (включно з машиністом).");
+            Console.WriteLine($"В потязі {Train.SumPasagire()} пасажирів (включно з машиністом).");
             Thread.Sleep(7000);
             Console.Clear();
             for (; ; )
